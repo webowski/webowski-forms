@@ -1,25 +1,81 @@
-/**
- * Use this file for JavaScript code that you want to run in the front-end
- * on posts/pages that contain this block.
- *
- * When this file is defined as the value of the `viewScript` property
- * in `block.json` it will be enqueued on the front end of the site.
- *
- * Example:
- *
- * ```js
- * {
- *   "viewScript": "file:./view.js"
- * }
- * ```
- *
- * If you're not making any changes to this file because your project doesn't need any
- * JavaScript running in the front-end, then you should delete this file and remove
- * the `viewScript` property from `block.json`.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#view-script
- */
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 
-/* eslint-disable no-console */
-console.log( 'Hello World! (from create-block-webowski-forms block)' );
-/* eslint-enable no-console */
+function WebowskiForm() {
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [message, setMessage] = useState("");
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		// простая валидация
+		if (!name || !email || !message) {
+			setError("Заполните все поля");
+			return;
+		}
+		setError("");
+
+		try {
+			const response = await fetch(webowskiForms.ajaxUrl, {
+				method: "POST",
+				headers: { "Content-Type": "application/x-www-form-urlencoded" },
+				body: new URLSearchParams({
+					action: "webowski_forms_submit",
+					name,
+					email,
+					message,
+					_nonce: webowskiForms.nonce,
+				}),
+			});
+
+			const data = await response.json();
+
+			if (data.success) {
+				setSuccess("Сообщение отправлено!");
+				setName("");
+				setEmail("");
+				setMessage("");
+			} else {
+				setError(data.data || "Ошибка при отправке");
+			}
+		} catch (err) {
+			setError("Ошибка соединения");
+		}
+	};
+
+	return (
+		<form onSubmit={handleSubmit}>
+			{error && <div style={{ color: "red" }}>{error}</div>}
+			{success && <div style={{ color: "green" }}>{success}</div>}
+
+			<input
+				type="text"
+				placeholder="Ваше имя"
+				value={name}
+				onChange={(e) => setName(e.target.value)}
+			/>
+			<input
+				type="email"
+				placeholder="Email"
+				value={email}
+				onChange={(e) => setEmail(e.target.value)}
+			/>
+			<textarea
+				placeholder="Сообщение"
+				value={message}
+				onChange={(e) => setMessage(e.target.value)}
+			/>
+			<button type="submit">Отправить</button>
+		</form>
+	);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	const root = document.getElementById("webowski-forms");
+	if (root) {
+		ReactDOM.render(<WebowskiForm />, root);
+	}
+});

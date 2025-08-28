@@ -58,7 +58,11 @@ add_action( 'wp_ajax_nopriv_webowski_send_email', 'webowski_forms_send_email' );
  *
  */
 function webowski_forms_send_email() {
-	check_ajax_referer( 'webowski_forms_nonce', 'nonce' );
+	if (!isset($_POST['_nonce']) || !wp_verify_nonce($_POST['_nonce'], 'webowski_forms_nonce')) {
+		wp_send_json_error('Неверный nonce');
+	}
+
+	check_ajax_referer( 'webowski_forms_nonce', '_nonce' );
 
 	$name    = sanitize_text_field( $_POST['name'] ?? '' );
 	$email   = sanitize_email( $_POST['email'] ?? '' );
@@ -83,11 +87,15 @@ function webowski_forms_send_email() {
 
 
 /**
- * Проброс ajax_url и nonce в React
+ * Проброс ajaxUrl и nonce в React
  */
 add_action( 'wp_enqueue_scripts', function() {
-	wp_localize_script( 'webowski-forms-view', 'webowskiForms', [
-		'ajax_url' => admin_url( 'admin-ajax.php' ),
-		'nonce'    => wp_create_nonce( 'webowski_forms_nonce' ),
-	] );
+	wp_localize_script(
+		'create-block-webowski-forms-view-script',
+		'webowskiForms',
+		[
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'webowski_forms_nonce' ),
+		]
+	);
 });

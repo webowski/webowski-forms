@@ -19,15 +19,15 @@ function WebowskiForm() {
 		setError("");
 
 		try {
-			const response = await fetch(webowskiForms.ajaxUrl, {
+			const response = await fetch(window.webowskiForms.ajaxUrl, {
 				method: "POST",
 				headers: { "Content-Type": "application/x-www-form-urlencoded" },
 				body: new URLSearchParams({
-					action: "webowski_forms_submit",
+					action: "webowski_send_email",
 					name,
 					email,
 					message,
-					_nonce: webowskiForms.nonce,
+					_nonce: window.webowskiForms.nonce,
 				}),
 			});
 

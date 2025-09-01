@@ -3,21 +3,21 @@ import ReactDOM from "react-dom"
 import { createRoot } from 'react-dom/client'
 
 function WebowskiForm() {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [message, setMessage] = useState("");
-	const [error, setError] = useState("");
-	const [success, setSuccess] = useState("");
+	const [name, setName] = useState("")
+	const [email, setEmail] = useState("")
+	const [message, setMessage] = useState("")
+	const [error, setError] = useState("")
+	const [success, setSuccess] = useState("")
 
 	const handleSubmit = async (e) => {
-		e.preventDefault();
+		e.preventDefault()
 
 		// простая валидация
 		if (!name || !email || !message) {
-			setError("Заполните все поля");
-			return;
+			setError("Заполните все поля")
+			return
 		}
-		setError("");
+		setError("")
 
 		try {
 			const response = await fetch(window.webowskiForms.ajaxUrl, {
@@ -30,15 +30,15 @@ function WebowskiForm() {
 					message,
 					_nonce: window.webowskiForms.nonce,
 				}),
-			});
+			})
 
-			const data = await response.json();
+			const data = await response.json()
 
 			if (data.success) {
-				setSuccess("Сообщение отправлено!");
-				setName("");
-				setEmail("");
-				setMessage("");
+				setSuccess("Сообщение отправлено!")
+				setName("")
+				setEmail("")
+				setMessage("")
 			} else {
 				setError(data.data || "Ошибка при отправке")
 			}
@@ -48,37 +48,46 @@ function WebowskiForm() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			{error && <div style={{ color: "red" }}>{error}</div>}
-			{success && <div style={{ color: "green" }}>{success}</div>}
+		<form onSubmit={handleSubmit} className='grid gap-4'>
 
-			<div className="">
+			{error &&
+				<div className='text-danger'>{error}</div>
+			}
+
+			{success &&
+				<div className='test-success'>{success}</div>
+			}
+
+			<div className=''>
 				<input
 					type="text"
+					className='w-full radius-sm FormInput'
 					placeholder="Ваше имя"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 				/>
 			</div>
 
-			<div className="">
+			<div className=''>
 				<input
 					type="email"
+					className='w-full radius-sm FormInput'
 					placeholder="Email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 				/>
 			</div>
 
-			<div className="">
+			<div className=''>
 				<textarea
+					className='w-full radius-sm FormInput'
 					placeholder="Сообщение"
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
 			</div>
 
-			<button className='' type="submit">Отправить</button>
+			<button className='Button' type="submit">Отправить</button>
 		</form>
 	)
 }

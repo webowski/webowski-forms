@@ -1,6 +1,5 @@
-.WebowskiForm {
-	background-color: hsl(240, 40%, 92%);
-	color: #fff;
-	padding: 2rem;
-	border-radius: .25rem;
-}
+@use "styles/tailwind";
+
+@use "styles/components";
+
+@tailwind utilities;

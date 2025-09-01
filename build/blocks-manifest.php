@@ -17,6 +17,16 @@ return array(
 			'html' => false
 		),
 		'textdomain' => 'webowski-forms',
+		'attributes' => array(
+			'formState' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'formData' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',

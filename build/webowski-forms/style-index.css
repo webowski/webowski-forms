@@ -1,1 +1,1 @@
-.WebowskiForm{background-color:#e2e2f3;border-radius:.25rem;color:#fff;padding:2rem}
+:host,:root{--spacing:.25rem;--color-danger:var(--danger)}.WebowskiForm{background-color:#e2e2f3;border-radius:.25rem;padding:2rem}.block{display:block}.block\!{display:block!important}.grid{display:grid}.w-full{width:100%}.gap-4{gap:calc(var(--spacing)*4)}.text-danger{color:var(--color-danger)}

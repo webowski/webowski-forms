@@ -4,6 +4,6 @@
  */
 
 ?>
-<div id="webowski-forms" <?php echo get_block_wrapper_attributes(); ?>>
+<div <?php echo get_block_wrapper_attributes( ['class' => 'WebowskiForm'] ) ?>>
 	<?php esc_html_e( 'Webowski Forms – hello from a dynamic block!', 'webowski-forms' ); ?>
 </div>

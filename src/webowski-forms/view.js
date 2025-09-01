@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useState } from "react"
+import ReactDOM from "react-dom"
+import { createRoot } from 'react-dom/client'
 
 function WebowskiForm() {
 	const [name, setName] = useState("");
@@ -39,43 +40,53 @@ function WebowskiForm() {
 				setEmail("");
 				setMessage("");
 			} else {
-				setError(data.data || "Ошибка при отправке");
+				setError(data.data || "Ошибка при отправке")
 			}
 		} catch (err) {
-			setError("Ошибка соединения");
+			setError("Ошибка соединения")
 		}
-	};
+	}
 
 	return (
 		<form onSubmit={handleSubmit}>
 			{error && <div style={{ color: "red" }}>{error}</div>}
 			{success && <div style={{ color: "green" }}>{success}</div>}
 
-			<input
-				type="text"
-				placeholder="Ваше имя"
-				value={name}
-				onChange={(e) => setName(e.target.value)}
-			/>
-			<input
-				type="email"
-				placeholder="Email"
-				value={email}
-				onChange={(e) => setEmail(e.target.value)}
-			/>
-			<textarea
-				placeholder="Сообщение"
-				value={message}
-				onChange={(e) => setMessage(e.target.value)}
-			/>
-			<button type="submit">Отправить</button>
+			<div className="">
+				<input
+					type="text"
+					placeholder="Ваше имя"
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+				/>
+			</div>
+
+			<div className="">
+				<input
+					type="email"
+					placeholder="Email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+			</div>
+
+			<div className="">
+				<textarea
+					placeholder="Сообщение"
+					value={message}
+					onChange={(e) => setMessage(e.target.value)}
+				/>
+			</div>
+
+			<button className='' type="submit">Отправить</button>
 		</form>
-	);
+	)
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	const root = document.getElementById("webowski-forms");
-	if (root) {
-		ReactDOM.render(<WebowskiForm />, root);
-	}
-});
+document.addEventListener('DOMContentLoaded', () => {
+	const $$containers = document.querySelectorAll('.WebowskiForm')
+
+	$$containers.forEach($container => {
+		createRoot($container).render(<WebowskiForm />)
+	})
+})

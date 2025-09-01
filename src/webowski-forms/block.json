@@ -12,6 +12,16 @@
 		"html": false
 	},
 	"textdomain": "webowski-forms",
+	"attributes": {
+		"formState": {
+			"type": "boolean",
+			"default": true
+		},
+		"formData": {
+			"type": "string",
+			"default": ""
+		}
+	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
